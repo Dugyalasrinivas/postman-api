@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "76ffe92a-8cfb-423e-b609-5a51ade69846",
+		"name": "put",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40039786",
+		"_collection_link": "https://werty8.postman.co/workspace/online3~223db7e3-4323-4a3a-94d5-249dd316e8ff/collection/40039786-76ffe92a-8cfb-423e-b609-5a51ade69846?action=share&source=collection_link&creator=40039786"
+	},
+	"item": [
+		{
+			"name": "get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"6\",\r\n        \"customer_name\": \"Srinu\",\r\n        \"items\": [\r\n            {\r\n                \"name\": \"idle\",\r\n                \"price\": 20,\r\n                \"quantity\": 2\r\n            },\r\n            {\r\n                \"name\": \"Bread\",\r\n                \"price\": 70,\r\n                \"quantity\": 2\r\n            }\r\n        ],\r\n        \"restaurant_id\": \"rest_501\",\r\n        \"delivery_address\": \"LPU\",\r\n        \"total_price\": 80\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}{{end}}",
+					"host": [
+						"{{base}}{{end}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "script",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Fixed the TypeError by checking for the existence of response and order\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"12\",\r\n        \"customer_name\": \"Smith\",\r\n        \"items\": [\r\n            {\r\n                \"name\": \"Pizza\",\r\n                \"price\": 8.99,\r\n                \"quantity\": 1\r\n            },\r\n            {\r\n                \"name\": \"Garlic Bread\",\r\n                \"price\": 3.49,\r\n                \"quantity\": 2\r\n            }\r\n        ],\r\n        \"restaurant_id\": \"rest_201\",\r\n        \"delivery_address\": \"45 Elm Street, Springfield\",\r\n        \"total_price\": 15.97\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "script2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Check for invalid item handling error message\r",
+							"pm.test(\"Check for invalid item handling error message\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    if (response) {\r",
+							"        response.forEach(order => {\r",
+							"            if (order.items) {\r",
+							"                order.items.forEach(item => {\r",
+							"                    pm.expect(item.name).to.be.a('string');\r",
+							"                    pm.expect(item.price).to.be.a('number');\r",
+							"                    pm.expect(item.quantity).to.be.a('number');\r",
+							"                });\r",
+							"            }\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
